@@ -6,7 +6,7 @@ eureka:
       defaultZone: 'http://localhost:8811/eureka'
 spring:
   application:
-    name: 'api-gateway'
+    name: api-gateway
   cloud:
     gateway:
       discovery:
@@ -16,23 +16,28 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowed-origins: 'http://localhost:3000'
-            allowed-methods: '*'
-            allowed-headers: '*'
+            allowed-origins: "http://localhost:3000"
+            allowed-methods:
+              - GET
+              - POST
+            allowed-headers: "*"
             allow-credentials: true
             max-age: 18000
-
-#spring.cloud.gateway.routes[0].id=keyword-websocket-service
-#spring.cloud.gateway.routes[0].uri=lb://keyword-websocket/keyword-ws
-#spring.cloud.gateway.routes[0].predicates= Path=/keyword-websocket/keyword-ws/info/**
-#spring.cloud.gateway.routes[1].id=keyword-websocket
-#spring.cloud.gateway.routes[1].uri=lb:ws://keyword-websocket/keyword-ws
-#spring.cloud.gateway.routes[1].predicates= Path=/keyword-websocket/keyword-ws/**
-
+      routes:
+        # SockJS route
+        - id: keyword-sockjs-route
+          uri: lb://keyword-ws
+          predicates:
+            - Path=/keyword-ws/info/**
+        # Normal Websocket route
+        - id: keyword-ws-route
+          uri: lb:ws://keyword-ws
+          predicates:
+            - Path=/keyword-ws/**
 
 logging:
   level:
     org:
       springframework:
         cloud:
-          gateway: debug
+          gateway: info
