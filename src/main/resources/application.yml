@@ -1,5 +1,5 @@
 server:
-  port: 18888
+  port: 8888
 
 eureka:
   client:
@@ -15,30 +15,31 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: false
           lower-case-service-id: true
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowed-origins: "http://localhost:3000"
-            allowed-methods:
-              - GET
-              - POST
-            allowed-headers: "*"
-            allow-credentials: true
-            max-age: 18000
       routes:
+        - id: job-description-api
+          uri: lb://job-description-api
+          predicates:
+            - Path=/job-list/**
+        - id: co-occurrence-matrix
+          uri: lb://matrix
+          predicates:
+            - Path=/most-correlated-words/**
+        - id: internationalization
+          uri: lb://internationalization
+          predicates:
+            - Path=/i18n-content/**
         # SockJS route
         - id: keyword-sockjs-route
-          uri: lb://keyword-ws
+          uri: lb://keyword-websocket
           predicates:
             - Path=/keyword-ws/info/**
         # Normal Websocket route
         - id: keyword-ws-route
-          uri: lb:ws://keyword-ws
+          uri: lb:ws://keyword-websocket
           predicates:
             - Path=/keyword-ws/**
-
 logging:
   level:
     org:
