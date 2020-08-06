@@ -10,6 +10,6 @@ import reactor.core.publisher.Mono;
 public class RateLimiter {
     @Bean
     KeyResolver pathKeyResolver() {
-        return exchange -> Mono.just(exchange.getRequest().getPath().toString());
+        return exchange -> Mono.just(exchange.getRequest().getPath().value());
     }
 }
