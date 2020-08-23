@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="error" monitorInterval="1800">
     <properties>
-        <property name="LOG_HOME">/logs/api-gateway</property>
+        <property name="LOG_HOME">../logs/api-gateway</property>
         <property name="LOG_PATTERN">%d %-5level %logger{36} %L %M - %msg%xEx%n</property>
         <property name="LOG_PATTERN_MQ">[%d]%msg%xEx%n</property>
         <property name="LOG_SIZE">100MB</property>
