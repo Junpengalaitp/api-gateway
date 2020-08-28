@@ -9,12 +9,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class CorsConfig {
-    @Value("${alaitp.frontend.uri1}")
-    private String frontendUri1;
-    @Value("${alaitp.frontend.uri2}")
-    private String frontendUri2;
-    @Value("${alaitp.frontend.uri3}")
-    private String frontendUri3;
+    @Value("${alaitp.frontend.uri}")
+    private String frontendUri;
 
     @Bean
     public CorsResponseHeaderFilter corsResponseHeaderFilter() {
@@ -25,10 +21,9 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.addAllowedOrigin(frontendUri1);
-        corsConfiguration.addAllowedOrigin(frontendUri2);
-        corsConfiguration.addAllowedOrigin(frontendUri3);
+        for (String uri : frontendUri.split(",")) {
+            corsConfiguration.addAllowedOrigin(uri);
+        }
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowCredentials(true);
