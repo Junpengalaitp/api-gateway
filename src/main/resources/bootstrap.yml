@@ -2,5 +2,5 @@ spring:
   cloud:
     config:
       name: api-gateway
-      uri: http://192.168.31.21:8810
-      profile: test
+      uri: http://192.168.1.69:8810
+      profile: dev

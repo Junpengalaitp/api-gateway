@@ -7,6 +7,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 public class CorsConfig {
     @Value("${alaitp.frontend.uri}")
@@ -21,9 +23,7 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        for (String uri : frontendUri.split(",")) {
-            corsConfiguration.addAllowedOrigin(uri);
-        }
+        Arrays.stream(frontendUri.split(",")).forEach(corsConfiguration::addAllowedOrigin);
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowCredentials(true);
