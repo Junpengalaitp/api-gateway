@@ -32,3 +32,4 @@ build/
 /.mvn/wrapper/
 /mvnw
 /mvnw.cmd
+/src/main/resources/junpenghe.com.pfx
