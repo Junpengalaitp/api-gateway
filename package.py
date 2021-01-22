@@ -4,9 +4,11 @@ import socket
 
 
 app_name = "api-gateway"
+docker_registry_addr = "172.17.0.12:5555"
+docker_tag = docker_registry_addr + "/" + app_name
 
 def git_pull():
-    os.system("git pull")
+    run_cmd("git pull")
 
 def change_config_file():
     print "changing config file"
@@ -35,28 +37,26 @@ def change_config_file():
     print "using " + env_yml_path + " as config file"
 
 def package_jar():
-    cmd = "mvn clean"
-    print "running " + cmd
-    os.system(cmd)
-
-    cmd = "mvn package"
-    print "running " + cmd
-    os.system(cmd)
+    run_cmd("mvn clean")
+    run_cmd("mvn package")
 
 def build_image():
-    docker_tag = "localhost:5555/" + app_name + ":latest"
 
-    os.system("docker build --tag=" + app_name + " --force-rm=true .")
-    os.system("docker tag " + app_name + " " + docker_tag)
-    os.system("docker push " +  docker_tag)
+    run_cmd("docker build --tag=" + app_name + " --force-rm=true .")
+    run_cmd("docker tag " + app_name + " " + docker_tag)
+    run_cmd("docker push " +  docker_tag)
 
 def k8s_deploy():
-    os.system("kubectl delete deployment api-gateway")
-    os.system("kubectl create deployment api-gateway --image=localhost:5555/api-gateway:latest")
-    app_name
+    run_cmd("kubectl delete deployment " + app_name)
+    run_cmd("kubectl create deployment " + app_name + " --image=" + docker_tag)
+
+def run_cmd(cmd):
+    print cmd
+    os.system(cmd)
 
 if __name__ == '__main__':
     git_pull()
     change_config_file()
     package_jar()
     build_image()
+    k8s_deploy()
