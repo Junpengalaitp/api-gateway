@@ -37,18 +37,24 @@ def change_config_file():
     print "using " + env_yml_path + " as config file"
 
 def package_jar():
-    run_cmd("mvn clean")
-    run_cmd("mvn package")
+    run_sudo_cmd("mvn clean")
+    run_sudo_cmd("mvn package")
 
 def build_image():
 
-    run_cmd("docker build --tag=" + app_name + " --force-rm=true .")
-    run_cmd("docker tag " + app_name + " " + docker_tag)
-    run_cmd("docker push " +  docker_tag)
+    run_sudo_cmd("docker build --tag=" + app_name + " --force-rm=true .")
+    run_sudo_cmd("docker tag " + app_name + " " + docker_tag)
+    run_sudo_cmd("docker push " +  docker_tag)
 
 def k8s_deploy():
     run_cmd("minikube kubectl -- delete deployment " + app_name)
     run_cmd("minikube kubectl -- create deployment " + app_name + " --image=" + docker_tag)
+
+
+def run_sudo_cmd(cmd):
+    cmd = "sudo " + cmd
+    print cmd
+    os.system(cmd)
 
 def run_cmd(cmd):
     print cmd
