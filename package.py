@@ -4,7 +4,7 @@ import socket
 
 
 app_name = "api-gateway"
-docker_registry_addr = "115.159.27.167:5555"
+docker_registry_addr = "192.168.49.1:5555"
 docker_tag = docker_registry_addr + "/" + app_name
 
 def git_pull():
