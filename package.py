@@ -44,11 +44,11 @@ def package_jar():
     os.system(cmd)
 
 def build_image():
-    docker_tag = f"localhost:5555/{app_name}:latest"
+    docker_tag = "localhost:5555/" + app_name + ":latest"
 
-    os.system(f"docker build --tag={app_name} --force-rm=true .")
-    os.system(f"docker tag {app_name} {docker_tag}")
-    os.system(f"docker push {docker_tag}")
+    os.system("docker build --tag=" + app_name + " --force-rm=true .")
+    os.system("docker tag " + app_name + " " + docker_tag)
+    os.system("docker push " +  docker_tag)
 
 def k8s_deploy():
     os.system("kubectl delete deployment api-gateway")
