@@ -47,8 +47,8 @@ def build_image():
     run_cmd("docker push " +  docker_tag)
 
 def k8s_deploy():
-    run_cmd("kubectl delete deployment " + app_name)
-    run_cmd("kubectl create deployment " + app_name + " --image=" + docker_tag)
+    run_cmd("minikube kubectl -- delete deployment " + app_name)
+    run_cmd("minikube kubectl -- create deployment " + app_name + " --image=" + docker_tag)
 
 def run_cmd(cmd):
     print cmd
