@@ -6,9 +6,9 @@ spring:
       config:
         enabled: true
         name: api-gateway
-        namespace: prod
+        namespace: default
         sources:
-          - namespace: prod
+          - namespace: default
             name: alaitp-shared
-          - namespace: prod
+          - namespace: default
             name: alaitp-api-gateway
