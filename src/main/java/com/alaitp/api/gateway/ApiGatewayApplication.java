@@ -6,11 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.event.EventListener;
 
 @EnableConfigurationProperties
-@EnableDiscoveryClient
 @SpringBootApplication
 public class ApiGatewayApplication {
 	private static final Logger log = LoggerFactory.getLogger(ApiGatewayApplication.class);
