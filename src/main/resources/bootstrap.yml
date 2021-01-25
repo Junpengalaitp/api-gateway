@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: api-gateway
+        namespace: default
+        sources:
+          - namespace: default
+            name: alaitp-shared
+          - namespace: default
+            name: alaitp-api-gateway
