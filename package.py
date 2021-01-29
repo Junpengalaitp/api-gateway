@@ -3,6 +3,8 @@ import sys
 
 
 app_name = "api-gateway"
+docker_registry= "localhost:5555"
+docker_registry_tag = docker_registry + "/" + app_name
 
 def git_pull():
     run_cmd("git pull")
@@ -38,13 +40,13 @@ def package_jar():
     run_cmd("mvn package")
 
 def build_image():
-    run_cmd("eval $(minikube docker-env)")
     run_cmd("docker build --tag=" + app_name + " --force-rm=true .")
-    run_cmd("eval $(minikube docker-env -u)")
+    run_cmd("docker tag " + app_name + " " + docker_registry_tag)
+    run_cmd("docker push " + docker_registry_tag)
 
 def k8s_deploy():
-    run_cmd("minikube kubectl -- delete deployment " + app_name)
-    run_cmd("minikube kubectl -- create deployment " + app_name + " --image=" + docker_tag)
+    run_cmd("kubectl delete deployment " + app_name)
+    run_cmd("kubectl create deployment " + app_name + " --image=" + docker_registry_tag)
 
 
 def run_sudo_cmd(cmd):
@@ -61,4 +63,4 @@ if __name__ == '__main__':
     change_config_file()
     package_jar()
     build_image()
-    # k8s_deploy()
+    k8s_deploy()
