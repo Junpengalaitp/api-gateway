@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
@@ -17,7 +16,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
  * redirect default https request for downstream services to http
  */
 @Slf4j
-@Component
+//@Component
 public class SchemeFilter implements GlobalFilter, Ordered {
 
     @Override
