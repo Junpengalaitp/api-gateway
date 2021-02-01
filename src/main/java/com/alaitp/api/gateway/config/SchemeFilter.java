@@ -39,10 +39,6 @@ public class SchemeFilter implements GlobalFilter, Ordered {
             return uri;
         }
         String scheme = "http";
-        log.info("raw query is: {}", rawQuery);
-        if (uri.toString().startsWith("ws")) {
-            scheme = "ws";
-        }
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUri(uri).scheme(scheme);
         // When building the URI, UriComponentsBuilder verify the allowed characters and does not
         // support the '+' so we replace it for its equivalent '%20'.
