@@ -10,7 +10,7 @@ def git_pull():
     run_cmd("git pull")
 
 def get_ssl_cert():
-    run_cmd("cp /data/certs/junpenghe.com.pfx src/main/resources/")
+    run_cmd("cp /data/certs/junpenghe.com.pfx /alaitp/source-code/api-gateway/src/main/resources")
 
 def change_config_file():
     print "changing config file"
