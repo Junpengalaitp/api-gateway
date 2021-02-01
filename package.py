@@ -63,6 +63,7 @@ def run_cmd(cmd):
 
 if __name__ == '__main__':
     git_pull()
+    get_ssl_cert()
     change_config_file()
     package_jar()
     build_image()
