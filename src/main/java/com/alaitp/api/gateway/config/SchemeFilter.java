@@ -1,5 +1,6 @@
 package com.alaitp.api.gateway.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -15,6 +16,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 /**
  * redirect default https request for downstream services to http
  */
+@Slf4j
 @Component
 public class SchemeFilter implements GlobalFilter, Ordered {
 
@@ -23,7 +25,9 @@ public class SchemeFilter implements GlobalFilter, Ordered {
         Object uriObj = exchange.getAttributes().get(GATEWAY_REQUEST_URL_ATTR);
         if (uriObj != null) {
             URI uri = (URI) uriObj;
+            log.info("filter get uri: {}", uri.toString());
             uri = this.upgradeConnection(uri, "http");
+            log.info("filter upgraded uri to: {}", uri.toString());
             exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, uri);
         }
         return chain.filter(exchange);
