@@ -38,10 +38,9 @@ public class SchemeFilter implements GlobalFilter, Ordered {
         if (rawQuery == null) {
             return uri;
         }
-
         String scheme = "http";
         log.info("raw query is: {}", rawQuery);
-        if (rawQuery.startsWith("ws")) {
+        if (uri.toString().startsWith("ws")) {
             scheme = "ws";
         }
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUri(uri).scheme(scheme);
