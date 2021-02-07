@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: test
-  name: alaitp-api-gateway-config
+  name: alaitp-api-gateway
 data:
   application.yaml: |-
     server:
