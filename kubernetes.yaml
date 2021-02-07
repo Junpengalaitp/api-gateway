@@ -1,0 +1,85 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: test
+  name: alaitp-api-gateway-config
+data:
+  application.yaml: |-
+    server:
+      port: 8888
+
+    spring:
+      application:
+        name: api-gateway
+      cloud:
+        gateway:
+          discovery:
+            locator:
+              enabled: false
+              lower-case-service-id: true
+          routes:
+            - id: job-description-api
+              uri: http://job-desc:8815
+              predicates:
+                - Path=/job-list/**
+            - id: co-occurrence-matrix
+              uri: http://job-desc:8815
+              predicates:
+                - Path=/most-correlated-words/**
+            # SockJS route
+            - id: keyword-sockjs-route
+              uri: http://keyword-ws:8816
+              predicates:
+                - Path=/keyword-ws/info/**
+            # Normal Websocket route
+            - id: keyword-ws-route
+              uri: ws://keyword-ws:8816
+              predicates:
+                - Path=/keyword-ws/**
+    logging:
+      level:
+        org:
+          springframework:
+            cloud:
+              gateway: debug
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: test
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: localhost:5555/api-gateway
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: test
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  type: NodePort
+  ports:
+    - port: 8888
+      nodePort: 31888
+  selector:
+    app: api-gateway

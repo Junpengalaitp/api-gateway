@@ -1,3 +1,4 @@
+# --spring.cloud.bootstrap.name=bootstrap-local-dev
 spring:
   application:
     name: api-gateway
@@ -6,9 +7,9 @@ spring:
       config:
         enabled: true
         name: api-gateway
-        namespace: default
+        namespace: test
         sources:
-          - namespace: default
+          - namespace: test
             name: alaitp-shared
-          - namespace: default
+          - namespace: test
             name: alaitp-api-gateway

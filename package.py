@@ -6,19 +6,20 @@ app_name = "api-gateway"
 docker_registry= "localhost:5555"
 docker_registry_tag = docker_registry + "/" + app_name
 
+env = sys.argv[1] if len(sys.argv) > 1 else "dev"
+
 def git_pull():
     run_cmd("git pull")
 
 def get_ssl_cert():
-    run_cmd("cp /data/certs/junpenghe.com.pfx /alaitp/source-code/api-gateway/src/main/resources")
+    if env == "prod":
+        run_cmd("cp /data/certs/junpenghe.com.pfx /alaitp/source-code/api-gateway/src/main/resources")
 
 def change_config_file():
     print "changing config file"
 
     bootstrap_yml = open("src/main/resources/bootstrap.yml", "w")
     bootstrap_yml.truncate()
-
-    env = sys.argv[1] if len(sys.argv) > 1 else "dev"
 
     if env == "dev":
         env_yml = "bootstrap-dev.yml"
@@ -40,7 +41,7 @@ def change_config_file():
 
 def package_jar():
     run_cmd("mvn clean")
-    run_cmd("mvn package")
+    run_cmd("mvn package -Dmaven.test.skip=true")
 
 def build_image():
     run_cmd("docker build --tag=" + app_name + " --force-rm=true .")
@@ -48,8 +49,7 @@ def build_image():
     run_cmd("docker push " + docker_registry_tag)
 
 def k8s_deploy():
-    run_cmd("kubectl delete deployment " + app_name)
-    run_cmd("kubectl create deployment " + app_name + " --image=" + docker_registry_tag)
+    run_cmd("kubectl apply -f kubernetes.yaml")
 
 
 def run_sudo_cmd(cmd):

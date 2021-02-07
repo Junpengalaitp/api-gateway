@@ -7,9 +7,9 @@ spring:
       config:
         enabled: true
         name: api-gateway
-        namespace: local-dev
+        namespace: test
         sources:
-          - namespace: local-dev
+          - namespace: test
             name: alaitp-shared
-          - namespace: local-dev
+          - namespace: test
             name: alaitp-api-gateway
