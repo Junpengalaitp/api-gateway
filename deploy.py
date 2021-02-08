@@ -72,6 +72,8 @@ def build_image():
     run_cmd("docker push " + docker_registry_tag)
 
 def k8s_deploy():
+    if env != "prod":
+        run_cmd("kubectl apply -f configMap.yaml " + "-n " + k8s_namespace)
     run_cmd("kubectl apply -f kubernetes.yaml " + "-n " + k8s_namespace)
 
 def run_sudo_cmd(cmd):
