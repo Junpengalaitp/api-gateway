@@ -13,10 +13,6 @@ k8s_namespace = "default" if env != "test" else "test"
 def git_pull():
     run_cmd("git pull")
 
-def get_ssl_cert():
-    if env == "prod":
-        run_cmd("cp /data/certs/junpenghe.com.pfx /alaitp/source-code/api-gateway/src/main/resources")
-
 def change_config_file():
     print "changing config file"
 
@@ -86,8 +82,8 @@ def run_cmd(cmd):
     os.system(cmd)
 
 if __name__ == '__main__':
+    run_cmd("kubectl delete -f kubernetes.yaml " + "-n " + k8s_namespace)
     git_pull()
-    get_ssl_cert()
     package_jar()
     build_image()
     k8s_deploy()

@@ -21,10 +21,6 @@ data:
               uri: http://job-desc:8815
               predicates:
                 - Path=/job-list/**
-            - id: co-occurrence-matrix
-              uri: http://job-desc:8815
-              predicates:
-                - Path=/most-correlated-words/**
             # SockJS route
             - id: keyword-sockjs-route
               uri: http://keyword-ws:8816
